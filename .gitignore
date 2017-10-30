@@ -1,3 +1,6 @@
+tests/*.js
+!tests/bing.js
+
 # Logs
 logs
 *.log

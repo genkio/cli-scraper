@@ -2,7 +2,8 @@
 
 const request = require('request')
 
-module.exports = url => {
+module.exports = descriptor => {
+  const url = descriptor.url
   return new Promise((resolve, reject) => {
     const options = {
       url: url.indexOf('http') < 0 ? `http://${url}` : url,
