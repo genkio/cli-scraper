@@ -11,7 +11,7 @@ module.exports = descriptor => {
     crawl(url, (error, response, body) => {
       if (error) { reject(error) }
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        resolve({ html: body })
+        resolve(Object.assign(descriptor, { html: body }))
       }
       let err = new Error(response.statusCode)
       err.response = response
