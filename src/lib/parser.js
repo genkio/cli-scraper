@@ -2,6 +2,6 @@
 
 const cheerio = require('cheerio')
 
-module.exports = html => {
-  return cheerio.load(html)
+module.exports = res => {
+  return Object.assign(res, { $: cheerio.load(res.html) })
 }

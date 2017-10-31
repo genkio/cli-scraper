@@ -1,23 +1,46 @@
 'use strict'
 
 const request = require('request')
+const C = require('../misc/constants')
 
 module.exports = descriptor => {
-  const url = descriptor.url
   return new Promise((resolve, reject) => {
-    const options = {
-      url: url.indexOf('http') < 0 ? `http://${url}` : url,
-      encoding: 'utf8',
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)'
-      },
-      timeout: 1000 * 60,
-      gzip: true
-    }
-    request(options, (error, response, body) => {
+    const url = getUrl(descriptor)
+    const crawl = getCrawler(descriptor)
+
+    crawl(url, (error, response, body) => {
       if (error) { reject(error) }
-      if (response.statusCode !== 200) { reject(response.statusCode) }
-      resolve(body)
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        resolve({ html: body })
+      }
+      let err = new Error(response.statusCode)
+      err.response = response
+      reject(err)
     })
   })
+}
+
+function getUrl(descriptor) {
+  let { url } = descriptor
+  if (!url || typeof url !== 'string') {
+    throw new TypeError('Expect an url of type string')
+  }
+  if (url.indexOf('http') < 0) {
+    throw new TypeError('Expect an url with protocol identifier (http or https)')
+  }
+  return url
+}
+
+function getCrawler(descriptor) {
+  const { options = {} } = descriptor
+  const defaultOptions = {
+    headers: { 'User-Agent': getRandomUserAgent() },
+    timeout: 1000 * 60,
+    gzip: true
+  }
+  return request.defaults(Object.assign(defaultOptions, options))
+}
+
+function getRandomUserAgent() {
+  return C.UA[Math.floor(Math.random() * (C.UA.length - 1))]
 }
