@@ -2,7 +2,7 @@
 
 module.exports = {
   url: 'https://www.bing.com/',
-  handler: res => {
+  process: res => {
     const { $ } = res
     return $('.hp_sw_logo').text() + 'go :)'
   }
