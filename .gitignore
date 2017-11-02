@@ -1,5 +1,6 @@
-tests/*.js
-!tests/bing.js
+examples/*.js
+!examples/bing.js
+!examples/netease.js
 
 # Logs
 logs

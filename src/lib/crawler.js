@@ -7,15 +7,14 @@ module.exports = descriptor => {
   return new Promise((resolve, reject) => {
     const url = getUrl(descriptor)
     const crawl = getCrawler(descriptor)
+    const target = descriptor.prevRes || url
 
     crawl(url, (error, response, body) => {
-      if (error) { reject(error) }
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        resolve(Object.assign(descriptor, { html: body }))
+      const oops = error || (response.statusCode >= 300)
+      if (oops) {
+        console.log(`Oops (${response.statusCode}), we're having problem processing ${JSON.stringify(target)}`)
       }
-      let err = new Error(response.statusCode)
-      err.response = response
-      reject(err)
+      resolve(Object.assign(descriptor, { html: body }))
     })
   })
 }
