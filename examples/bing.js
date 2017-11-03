@@ -1,13 +1,14 @@
 'use strict'
 
-const crawler = require('../')
-const descriptor = {
+const crawl = require('../')
+const config = {
   url: 'https://www.bing.com/',
-  process: res => {
+  requestDebug: true,
+  process(res) {
     const { $ } = res
     return $('.hp_sw_logo').text() + 'go :)'
   }
 }
 
-crawler(descriptor)
-  .then(res => console.log(res))
+crawl(config)
+  .then(res => console.log(res.join('')))

@@ -1,7 +1,7 @@
 'use strict'
 
-const crawler = require('../')
-const descriptor = {
+const crawl = require('../')
+const config = {
   url: 'http://3g.163.com/touch/news/',
   process(res) {
     const { $ } = res
@@ -15,8 +15,8 @@ const descriptor = {
   },
   next: {
     url: 'url',
+    randomUserAgent: true,
     parallel: true,
-    // sequential: true,
     process(res) {
       const { $, prevRes } = res
       console.log(`now processing next item ${prevRes.id}`)
@@ -32,9 +32,9 @@ const descriptor = {
 
 const start = new Date().getTime()
 let end = null
-crawler(descriptor)
+crawl(config)
   .then(res => {
     end = new Date().getTime()
-    // console.log(Array.from(res))
+    console.log(res)
     console.log(`Time spent: ${(end - start) / 1000} seconds`)
   })

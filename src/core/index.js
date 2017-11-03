@@ -1,27 +1,32 @@
 'use strict'
 
+const _ = require('lodash')
 const crawl = require('../lib/crawler')
 const parse = require('../lib/parser')
+const promiseLimit = require('promise-limit')
+const defaultConfig = require('../config/default')
 
-module.exports = descriptor => crawl({ url: descriptor.url })
-  .then(parse)
-  .then(descriptor.process)
-  .then(res => {
-    const { next } = descriptor
-    if (!next) return res
-    if (next.sequential && next.parallel) {
-      throw new Error(`Can't have both 'sequential' and 'parallel' at same time.`)
-    }
-    if (next.sequential) return processNextSequential(next, res)
-    if (next.parallel) return processNextParallel(next, res)
-  })
-  .then(res => {
-    const { exclude } = descriptor
-    if (!exclude) return res
-    return processExclude(exclude, res)
-  })
-  .catch(e => console.log(e))
-  .then(res => res)
+module.exports = config => {
+  config = _.merge(defaultConfig, config)
+
+  return crawl(config)
+    .then(parse)
+    .then(config.process)
+    .then(res => {
+      const { next } = config
+      if (!next.url) return res
+
+      if (next.parallel) next.sequential = false
+      if (next.parallel) return processNextParallel(next, res)
+      if (next.sequential) return processNextSequential(next, res)
+    })
+    .then(res => {
+      const { exclude } = config
+      return processExclude(exclude, res)
+    })
+    .then(res => res)
+    .catch(e => { throw Error(e) })
+}
 
 function processNextSequential(next, res) {
   return Array.from(res)
@@ -36,10 +41,12 @@ function processNextSequential(next, res) {
 }
 
 function processNextParallel(next, res) {
+  const limit = promiseLimit(next.promiseLimit)
   return Promise.all(
     Array.from(res).map(item =>
-      crawl({ url: item[next.url], prevRes: item })
-        .then(parse).then(next.process))
+      limit(() =>
+        crawl(_.merge(next, { url: item[next.url], prevRes: item }))
+          .then(parse).then(next.process)))
   )
 }
 
