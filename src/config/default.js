@@ -1,22 +1,22 @@
 'use strict'
 
-const { MESSAGES } = require('../misc/constants')
+const { MESSAGES, BOT_UA } = require('../misc/constants')
 
-module.exports = {
+exports.defaultConfig = {
   url: '',
   requestOptions: {},
   requestDebug: false,
   randomUserAgent: false,
+  promiseLimit: 3,
   process(res) { throw Error(MESSAGES.ERROR.MISSING_IMPL) },
   next: {
     url: '',
-    requestOptions: {},
-    requestDebug: false,
-    randomUserAgent: false,
-    parallel: false,
-    sequential: true,
-    promiseLimit: 3,
     process(res) { throw Error(MESSAGES.ERROR.MISSING_IMPL) }
-  },
-  exclude(item) {}
+  }
+}
+
+exports.requestConfig = {
+  headers: { 'User-Agent': BOT_UA },
+  timeout: 1000 * 10,
+  gzip: true
 }

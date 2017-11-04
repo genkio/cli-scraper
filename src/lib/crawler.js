@@ -1,30 +1,31 @@
 'use strict'
 
-const _ = require('lodash')
 const request = require('request')
-// request.debug = true
+const { requestConfig } = require('../config/default')
 const C = require('../misc/constants')
 
 module.exports = config => {
   return new Promise((resolve, reject) => {
     request.debug = config.requestDebug
 
-    const options = getRequestOptions(config)
-    const crawl = getCrawler(config)
-    const target = config.prevRes || options.url
+    const userConfig = getUserRequestConfig(config)
+    const crawl = getDefaultCrawler(config)
 
-    crawl(options, (error, response, body) => {
-      const { statusCode } = response
-      const oops = error || (statusCode >= 300)
-      if (oops) {
-        console.log(C.MESSAGES.FAILED_TO_CRAWL(statusCode, JSON.stringify(target)))
+    crawl(userConfig, (error, response, body) => {
+      if (error || (response.statusCode >= 300)) {
+        console.error(C.MESSAGES.ERROR.FAILED_TO_CRAWL)
+        if (response && response.request && response.request.href) {
+          console.error(response.request.href)
+        }
       }
-      resolve(_.merge(config, { html: body }))
+      if (error) console.error(error.message)
+      if (response && response.statusCode >= 300) console.error(response.statusCode)
+      resolve({ url: response.request.href, html: (body || '') })
     })
   })
 }
 
-function getRequestOptions(config) {
+function getUserRequestConfig(config) {
   let { url, requestOptions } = config
   if (!url || typeof url !== 'string') {
     throw TypeError(C.MESSAGES.ERROR.MISSING_URL)
@@ -32,21 +33,16 @@ function getRequestOptions(config) {
   if (url.indexOf('http') < 0) {
     throw TypeError(C.MESSAGES.ERROR.MISSING_PROTOCOL)
   }
-  return _.merge(requestOptions, { url })
+  return Object.assign(requestOptions, { url })
 }
 
-function getCrawler(config) {
+function getDefaultCrawler(config) {
   const { randomUserAgent } = config
-  const defaultOptions = {
-    headers: { 'User-Agent': C.BOT_UA },
-    timeout: 1000 * 60,
-    gzip: true
-  }
   if (randomUserAgent) {
-    defaultOptions.headers['User-Agent'] = getRandomUserAgent()
+    requestConfig.headers['User-Agent'] = getRandomUserAgent()
   }
 
-  return request.defaults(defaultOptions)
+  return request.defaults(requestConfig)
 }
 
 function getRandomUserAgent() {
