@@ -5,7 +5,7 @@ exports.MESSAGES = {
     MISSING_IMPL: 'Missing implementation.',
     MISSING_URL: 'Expect an url of type string.',
     MISSING_PROTOCOL: 'Expect an url with protocol identifier (http or https).',
-    FAILED_TO_CRAWL: 'Oops, we\'re having some problem crawling the target resource.'
+    FAILED_TO_CRAWL: 'Oops, we\'re having some problem crawling the target resource'
   }
 }
 

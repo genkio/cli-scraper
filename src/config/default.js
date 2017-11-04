@@ -4,7 +4,8 @@ const { MESSAGES, BOT_UA } = require('../misc/constants')
 
 exports.defaultConfig = {
   url: '',
-  requestOptions: {},
+  beforeRequest() { return {} },
+  afterProcessed(res) { return res },
   requestDebug: false,
   randomUserAgent: false,
   promiseLimit: 3,

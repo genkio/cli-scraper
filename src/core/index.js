@@ -11,6 +11,7 @@ module.exports = config => {
   return crawl(config)
     .then(parse)
     .then(config.process)
+    .then(config.afterProcessed)
     .then(res => {
       const { next } = config
       if (!next.url) return res
@@ -19,7 +20,6 @@ module.exports = config => {
       // if (next.parallel) return processNextParallel(next, res)
       // if (next.sequential) return processNextSequential(next, res)
     })
-    .then(res => res)
     .catch(e => { throw e })
 }
 
@@ -41,7 +41,9 @@ function processNextParallel(config, res) {
     Array.from(res).map(item =>
       limit(() => {
         return crawl(Object.assign(config, { url: item[config.next.url] }))
-          .then(parse).then(config.next.process)
+          .then(parse)
+          .then(config.next.process)
+          .then(config.afterProcessed)
       })
     )
   )

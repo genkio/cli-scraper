@@ -5,7 +5,10 @@ const config = {
   url: 'https://www.bing.com/',
   requestDebug: true,
   process({ $ }) {
-    return $('.hp_sw_logo').text() + 'go :)'
+    return $('.hp_sw_logo').text()
+  },
+  afterProcessed(res) {
+    return res + 'go :)'
   }
 }
 

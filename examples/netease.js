@@ -1,9 +1,18 @@
 'use strict'
 
+const _ = require('lodash')
 const crawl = require('../')
+const proxyList = require('./proxy.json')
+
 const config = {
   url: 'http://3g.163.com/touch/news/',
   randomUserAgent: true,
+  requestDebug: true,
+  beforeRequest() {
+    return {
+      proxy: _.sample(proxyList).proxy
+    }
+  },
   process({ $ }) {
     return $('ul.s_news_list > li > h2 > a').map((i, el) => {
       return {
