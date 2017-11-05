@@ -31,16 +31,15 @@ module.exports = config => {
 
 function getRequestOptions(config) {
   const { url, beforeRequest } = config
+  const alteredConfig = beforeRequest(config)
+
   if (_.isEmpty(url) || !_.isString(url)) {
     throw TypeError(C.MESSAGES.ERROR.MISSING_URL)
   }
-  if (url.indexOf('http') < 0) {
-    throw TypeError(C.MESSAGES.ERROR.MISSING_PROTOCOL)
+  if (_.isArray(alteredConfig) || !_.isObject(alteredConfig)) {
+    throw TypeError(C.MESSAGES.ERROR.INVALID_CONFIG)
   }
-  if (_.isArray(beforeRequest()) || !_.isObject(beforeRequest())) {
-    throw TypeError('')
-  }
-  return _.merge(beforeRequest(), { url })
+  return _.merge({ url }, alteredConfig)
 }
 
 function getDefaultCrawler(config) {
