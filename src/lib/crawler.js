@@ -7,21 +7,25 @@ const C = require('../misc/constants')
 
 module.exports = config => {
   return new Promise((resolve, reject) => {
-    request.debug = config.requestDebug
+    request.debug = config.debugRequest
 
     const requestOptions = getRequestOptions(config)
     const crawl = getDefaultCrawler(config)
 
-    crawl(requestOptions, (error, response, body) => {
+    const callback = function(error, response, body) {
       const statusCode = _.get(response, 'statusCode', '')
-      const url = _.get(response, 'request.href', '')
+      const url = _.get(this, 'href', '')
+      const errMessage = _.get(error, 'message', '')
 
-      if (error || (statusCode >= 300)) {
+      if (error || (statusCode < 200 || statusCode >= 300)) {
         console.error(`${C.MESSAGES.ERROR.FAILED_TO_CRAWL}: (${statusCode}) ${url}`)
+        resolve({ url, html: '', error: errMessage })
       }
       if (error) console.error(error.message)
-      resolve({ url, html: (body || '') })
-    })
+      resolve({ url, html: body, error: errMessage })
+    }
+
+    crawl(requestOptions, callback)
   })
 }
 

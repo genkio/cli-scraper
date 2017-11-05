@@ -6,7 +6,7 @@ exports.defaultConfig = {
   url: '',
   beforeRequest() { return {} },
   afterProcessed(res) { return res },
-  requestDebug: false,
+  debugRequest: false,
   randomUserAgent: false,
   promiseLimit: 3,
   process(res) { throw Error(MESSAGES.ERROR.MISSING_IMPL) },

@@ -3,7 +3,7 @@
 const crawl = require('../')
 const config = {
   url: 'https://www.bing.com/',
-  requestDebug: true,
+  debugRequest: true,
   process({ $ }) {
     return $('.hp_sw_logo').text()
   },

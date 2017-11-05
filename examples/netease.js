@@ -7,7 +7,7 @@ const proxyList = require('./proxy.json')
 const config = {
   url: 'http://3g.163.com/touch/news/',
   randomUserAgent: true,
-  requestDebug: true,
+  debugRequest: true,
   beforeRequest() {
     return {
       proxy: _.sample(proxyList).proxy
@@ -17,16 +17,17 @@ const config = {
     return $('ul.s_news_list > li > h2 > a').map((i, el) => {
       return {
         id: i + 1,
-        title: $(el).text(),
-        url: $(el).prop('href')
+        articleUrl: $(el).prop('href'),
+        title: $(el).text()
       }
     })
   },
   next: {
-    url: 'url',
-    process({ $, url }) {
+    url: 'articleUrl',
+    process({ $, url, error }) {
       return {
         url,
+        error,
         date: $('.js-time').text(),
         title: $('h1').text()
       }
