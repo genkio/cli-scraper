@@ -38,6 +38,7 @@ function processNext(config, res) {
   return Promise.all(
     Array.from(res).map(item =>
       limit(() => {
+        config.prevRes = item
         return crawl(Object.assign(config, { url: item[config.next.url] }))
           .then(parse)
           .then(config.next.process)

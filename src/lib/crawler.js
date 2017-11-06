@@ -12,20 +12,22 @@ module.exports = config => {
     const requestOptions = getRequestOptions(config)
     const crawl = getDefaultCrawler(config)
 
-    const callback = function(error, response, body) {
-      const statusCode = _.get(response, 'statusCode', '')
-      const url = _.get(this, 'href', '')
-      const errMessage = _.get(error, 'message', '')
+    const callback = function(prevRes) {
+      return function(error, response, body) {
+        const statusCode = _.get(response, 'statusCode', '')
+        const url = _.get(this, 'href', '')
+        const errMessage = _.get(error, 'message', '')
 
-      if (error || (statusCode < 200 || statusCode >= 300)) {
-        console.error(`${C.MESSAGES.ERROR.FAILED_TO_CRAWL}: (${statusCode}) ${url}`)
-        resolve({ url, html: '', error: errMessage })
+        if (error || (statusCode < 200 || statusCode >= 300)) {
+          console.error(`${C.MESSAGES.ERROR.FAILED_TO_CRAWL}: (${statusCode}) ${url}`)
+          resolve({ url, html: '', error: errMessage })
+        }
+        if (error) console.error(error.message)
+        resolve({ url, html: body, error: errMessage, prevRes: prevRes || '' })
       }
-      if (error) console.error(error.message)
-      resolve({ url, html: body, error: errMessage })
     }
 
-    crawl(requestOptions, callback)
+    crawl(requestOptions, callback(config.prevRes))
   })
 }
 

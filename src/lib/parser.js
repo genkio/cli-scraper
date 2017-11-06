@@ -3,6 +3,6 @@
 const cheerio = require('cheerio')
 
 module.exports = res => {
-  const { html, url, error } = res
-  return { $: cheerio.load(html), url, error }
+  const { html, url, error, prevRes } = res
+  return { $: cheerio.load(html), url, error, prevRes }
 }
