@@ -23,15 +23,15 @@ module.exports = function crawl(config) {
           error = _.get(err, 'message', statusCode)
           setTimeout(function () {
             resolve(Object.assign(result, {
-              error, html: '', createdAt: moment().toISOString()
+              error: error, html: '', createdAt: moment().toISOString()
             }))
-          }, _.random(config.randonWait * 1000))
+          }, _.random(config.randomWait * 1000))
         }
         setTimeout(function () {
           resolve(Object.assign(result, {
             html: body, createdAt: moment().toISOString()
           }))
-        }, _.random(config.randonWait * 1000))
+        }, _.random(config.randomWait * 1000))
       }
     }
     console.log(`Start crawling...${config.url}`)

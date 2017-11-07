@@ -1,3 +1,9 @@
 'use strict'
 
-module.exports = require('./src/core')
+const UA = require('./src/misc/ua')
+const handle = require('./src/core')
+
+module.exports = {
+  UA,
+  handle
+}

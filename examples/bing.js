@@ -1,15 +1,18 @@
 'use strict'
 
-const crawl = require('../')
+const nodeCrawler = require('../')
 const config = {
   url: 'http://www.bing.com/',
   debugRequest: true,
   beforeRequest() {
     return {
+      headers: {
+        'User-Agent': nodeCrawler.UA.BOT.BING
+      },
       timeout: 3000
     }
   },
-  randonWait: 10,
+  randomWait: 10,
   process: function({ $ }) {
     return $('.hp_sw_logo').text()
   },
@@ -18,6 +21,6 @@ const config = {
   }
 }
 
-crawl(config)
+nodeCrawler.handle(config)
   .then(console.log)
   .catch(console.log)

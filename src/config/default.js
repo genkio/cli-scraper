@@ -11,7 +11,7 @@ exports.defaultConfig = {
   debugRequest: false,
   randomUserAgent: false,
   promiseLimit: 3,
-  randonWait: 5,
+  randomWait: 5,
   process({ $, url, error, createdAt }) { throw Error('Missing implementation') },
   prevRes: {},
   next: {
@@ -28,7 +28,7 @@ exports.configSchema = Joi.object().keys({
   debugRequest: Joi.boolean(),
   randomUserAgent: Joi.boolean(),
   promiseLimit: Joi.number(),
-  randonWait: Joi.number(),
+  randomWait: Joi.number(),
   process: Joi.func().required(),
   prevRes: Joi.object(),
   next: Joi.object().keys({

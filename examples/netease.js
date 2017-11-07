@@ -1,13 +1,13 @@
 'use strict'
 
 const _ = require('lodash')
-const crawl = require('../')
+const handle = require('../').handle
 const proxyList = require('./proxy.json')
 
 const config = {
   url: 'http://3g.163.com/touch/news/',
   randomUserAgent: true,
-  randonWait: 10,
+  randomWait: 10,
   debugRequest: false,
   beforeRequest() {
     return {
@@ -39,7 +39,7 @@ const config = {
 
 const start = new Date().getTime()
 let end = null
-crawl(config)
+handle(config)
   .then(res => {
     end = new Date().getTime()
     console.log(`Time spent: ${(end - start) / 1000} seconds`)
