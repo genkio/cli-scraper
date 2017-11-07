@@ -5,7 +5,7 @@ const parse = require('../lib/parser')
 const promiseLimit = require('promise-limit')
 const { defaultConfig } = require('../config/default')
 
-module.exports = config => {
+module.exports = function process(config) {
   if (!config.urls) return processSinglePage(config)
 
   return config.urls.map(function(url) {

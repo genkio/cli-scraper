@@ -1,31 +1,40 @@
 'use strict'
 
 const request = require('request')
+const moment = require('moment')
 const _ = require('lodash')
 const { requestBaseConfig, configSchema } = require('../config/default')
 const { validate } = require('../misc/utils')
-const C = require('../misc/constants')
+const UA = require('../misc/ua')
 
-module.exports = config => {
+module.exports = function crawl(config) {
   return new Promise((resolve, reject) => {
     const requestOptions = injectRequestOptions(config)
     validate(config, configSchema)
 
-    const callback = function(prevRes) {
-      return function(error, response, body) {
+    const callback = function(prevRes = {}) {
+      return function(err, response, body) {
         const statusCode = _.get(response, 'statusCode', '')
         const url = _.get(this, 'href', '')
-        const errMessage = _.get(error, 'message', '')
+        let error = ''
+        let result = { url, prevRes, error, html: '' }
 
-        if (error || (statusCode < 200 || statusCode >= 300)) {
-          console.error(`${C.MESSAGES.ERROR.FAILED_TO_CRAWL}: (${statusCode}) ${url}`)
-          resolve({ url, html: '', error: errMessage })
+        if (err || (statusCode < 200 || statusCode >= 300)) {
+          error = _.get(err, 'message', statusCode)
+          setTimeout(function () {
+            resolve(Object.assign(result, {
+              error, html: '', createdAt: moment().toISOString()
+            }))
+          }, _.random(config.randonWait * 1000))
         }
-        if (error) console.error(error.message)
-        resolve({ url, html: body, error: errMessage, prevRes: prevRes || '' })
+        setTimeout(function () {
+          resolve(Object.assign(result, {
+            html: body, createdAt: moment().toISOString()
+          }))
+        }, _.random(config.randonWait * 1000))
       }
     }
-
+    console.log(`Start crawling...${config.url}`)
     getDefaultCrawler(config)(requestOptions, callback(config.prevRes))
   })
 }
@@ -40,7 +49,7 @@ function getDefaultCrawler(config) {
   const { randomUserAgent } = config
   request.debug = config.debugRequest
   if (randomUserAgent) {
-    requestBaseConfig.headers['User-Agent'] = _.sample(C.UA)
+    requestBaseConfig.headers['User-Agent'] = _.sample(UA.BROWSER)
   }
   return request.defaults(requestBaseConfig)
 }

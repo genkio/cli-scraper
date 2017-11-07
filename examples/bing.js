@@ -9,6 +9,7 @@ const config = {
       timeout: 3000
     }
   },
+  randonWait: 10,
   process: function({ $ }) {
     return $('.hp_sw_logo').text()
   },

@@ -1,7 +1,7 @@
 'use strict'
 
 const Joi = require('joi')
-const { MESSAGES, BOT_UA } = require('../misc/constants')
+const { BOT } = require('../misc/ua')
 
 exports.defaultConfig = {
   url: '',
@@ -11,11 +11,12 @@ exports.defaultConfig = {
   debugRequest: false,
   randomUserAgent: false,
   promiseLimit: 3,
-  process({ $, url, error }) { throw Error(MESSAGES.ERROR.MISSING_IMPL) },
+  randonWait: 5,
+  process({ $, url, error, createdAt }) { throw Error('Missing implementation') },
   prevRes: {},
   next: {
     url: '',
-    process({ $, url, error, prevRes }) { throw Error(MESSAGES.ERROR.MISSING_IMPL) }
+    process({ $, url, error, createdAt, prevRes }) { throw Error('Missing implementation') }
   }
 }
 
@@ -27,6 +28,7 @@ exports.configSchema = Joi.object().keys({
   debugRequest: Joi.boolean(),
   randomUserAgent: Joi.boolean(),
   promiseLimit: Joi.number(),
+  randonWait: Joi.number(),
   process: Joi.func().required(),
   prevRes: Joi.object(),
   next: Joi.object().keys({
@@ -36,7 +38,7 @@ exports.configSchema = Joi.object().keys({
 })
 
 exports.requestBaseConfig = {
-  headers: { 'User-Agent': BOT_UA.GBOT },
+  headers: { 'User-Agent': BOT.GOOGLE },
   timeout: 1000 * 10,
   gzip: true
 }

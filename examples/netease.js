@@ -7,7 +7,8 @@ const proxyList = require('./proxy.json')
 const config = {
   url: 'http://3g.163.com/touch/news/',
   randomUserAgent: true,
-  debugRequest: true,
+  randonWait: 10,
+  debugRequest: false,
   beforeRequest() {
     return {
       proxy: _.sample(proxyList).proxy
@@ -24,10 +25,11 @@ const config = {
   },
   next: {
     url: 'articleUrl',
-    process({ $, url, error }) {
+    process({ $, url, error, createdAt }) {
       return {
         url,
         error,
+        createdAt,
         date: $('.js-time').text(),
         title: $('h1').text()
       }
