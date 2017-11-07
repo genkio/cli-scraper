@@ -2,15 +2,14 @@
 
 const request = require('request')
 const _ = require('lodash')
-const { requestConfig } = require('../config/default')
+const { requestBaseConfig, configSchema } = require('../config/default')
+const { validate } = require('../misc/utils')
 const C = require('../misc/constants')
 
 module.exports = config => {
   return new Promise((resolve, reject) => {
-    request.debug = config.debugRequest
-
-    const requestOptions = getRequestOptions(config)
-    const crawl = getDefaultCrawler(config)
+    const requestOptions = injectRequestOptions(config)
+    validate(config, configSchema)
 
     const callback = function(prevRes) {
       return function(error, response, body) {
@@ -27,28 +26,21 @@ module.exports = config => {
       }
     }
 
-    crawl(requestOptions, callback(config.prevRes))
+    getDefaultCrawler(config)(requestOptions, callback(config.prevRes))
   })
 }
 
-function getRequestOptions(config) {
+function injectRequestOptions(config) {
   const { url, beforeRequest } = config
-  const alteredConfig = beforeRequest(config)
-
-  if (_.isEmpty(url) || !_.isString(url)) {
-    throw TypeError(C.MESSAGES.ERROR.MISSING_URL)
-  }
-  if (_.isArray(alteredConfig) || !_.isObject(alteredConfig)) {
-    throw TypeError(C.MESSAGES.ERROR.INVALID_CONFIG)
-  }
-  return _.merge({ url }, alteredConfig)
+  const injectedRequestOptions = beforeRequest(config)
+  return _.merge({ url }, injectedRequestOptions)
 }
 
 function getDefaultCrawler(config) {
   const { randomUserAgent } = config
+  request.debug = config.debugRequest
   if (randomUserAgent) {
-    requestConfig.headers['User-Agent'] = _.sample(C.UA)
+    requestBaseConfig.headers['User-Agent'] = _.sample(C.UA)
   }
-
-  return request.defaults(requestConfig)
+  return request.defaults(requestBaseConfig)
 }

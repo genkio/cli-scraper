@@ -2,9 +2,14 @@
 
 const crawl = require('../')
 const config = {
-  url: 'https://www.bing.com/',
+  url: 'http://www.bing.com/',
   debugRequest: true,
-  process({ $ }) {
+  beforeRequest() {
+    return {
+      timeout: 3000
+    }
+  },
+  process: function({ $ }) {
     return $('.hp_sw_logo').text()
   },
   afterProcessed(res) {
