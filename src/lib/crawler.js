@@ -34,7 +34,7 @@ module.exports = function crawl(config) {
         }, _.random(config.randomWait * 1000))
       }
     }
-    console.log(`Start crawling...${config.url}`)
+    if (config.printRequestUrl) console.log(`Requesting...${config.url}`)
     getDefaultCrawler(config)(requestOptions, callback(config.prevRes))
   })
 }

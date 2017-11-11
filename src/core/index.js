@@ -6,19 +6,19 @@ const promiseLimit = require('promise-limit')
 const { defaultConfig } = require('../config/default')
 
 module.exports = function handle(config) {
-  if (!config.urls) return processSinglePage(config)
+  if (!config.urls) return handleSinglePage(config)
 
   return config.urls.map(function(url) {
     return Object.assign({ url }, this)
   }.bind(config)).reduce((promise, config) => {
     return promise.then(res => {
-      return processSinglePage(config)
+      return handleSinglePage(config)
         .then(Array.prototype.concat.bind(res))
     })
   }, Promise.resolve([]))
 }
 
-function processSinglePage(config) {
+function handleSinglePage(config) {
   config = Object.assign(defaultConfig, config)
 
   return crawl(config)
@@ -27,13 +27,14 @@ function processSinglePage(config) {
     .then(config.afterProcessed)
     .then(res => {
       const { next } = config
-      if (!next.url) return res
-      return processNext(config, res)
+      if (!next.url || next.url === "''" /* stringified default value */) return res
+      return handleNext(config, res)
     })
+    .then(config.finally)
     .catch(e => { throw e })
 }
 
-function processNext(config, res) {
+function handleNext(config, res) {
   const limit = promiseLimit(config.promiseLimit)
   return Promise.all(
     Array.from(res).map(item =>

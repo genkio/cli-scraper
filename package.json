@@ -1,11 +1,14 @@
 {
-  "name": "node-crawler",
+  "name": "cli-scraper",
   "version": "1.0.0",
-  "description": "A flexible yet easy-to-use web page crawler library.",
+  "description": "A flexible yet easy-to-use web scraping library for cli.",
   "main": "src/index.js",
-  "repository": "git@github.com:j1wu/node-crawler.git",
+  "repository": "git@github.com:j1wu/cli-scraper.git",
   "author": "j1wu <ji.wu@outlook.com>",
   "license": "MIT",
+  "bin": {
+    "clis": "./src/bin/index.js"
+  },
   "devDependencies": {
     "eslint": "^4.2.0",
     "eslint-config-standard": "^10.2.1",
@@ -16,6 +19,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "commander": "^2.11.0",
     "joi": "12",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
