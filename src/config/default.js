@@ -2,39 +2,49 @@
 
 const Joi = require('joi')
 const { BOT } = require('../misc/ua')
+const urlRegex = /^(http|https)/
 
 exports.defaultConfig = {
-  url: '',
+  url: "''",
   urls: [],
-  beforeRequest() { return {} },
-  afterProcessed(res) { return res },
+  beforeRequest: function() { return {} },
+  afterProcessed: function(res) { return res },
   debugRequest: false,
   randomUserAgent: false,
+  printRequestUrl: true,
   promiseLimit: 3,
   randomWait: 5,
-  process({ $, url, error, createdAt }) { throw Error('Missing implementation') },
-  prevRes: {},
+  process: function({ $, url, error, createdAt }) {
+    throw Error('Missing implementation')
+  },
   next: {
-    url: '',
-    process({ $, url, error, createdAt, prevRes }) { throw Error('Missing implementation') }
+    key: "''",
+    process: function({ $, url, error, createdAt, prevRes }) {
+      throw Error('Missing implementation')
+    }
+  },
+  finally: function(res) {
+    throw Error('Missing implementation')
   }
 }
 
 exports.configSchema = Joi.object().keys({
-  url: Joi.string().uri({ scheme: ['http', 'https'] }).required(),
-  urls: Joi.array().items(Joi.string().uri({ scheme: ['http', 'https'] })),
+  url: Joi.string().regex(urlRegex).empty(''),
+  urls: Joi.array().items(Joi.string().regex(urlRegex)),
   beforeRequest: Joi.func(),
   afterProcessed: Joi.func(),
   debugRequest: Joi.boolean(),
   randomUserAgent: Joi.boolean(),
+  printRequestUrl: Joi.boolean(),
   promiseLimit: Joi.number(),
   randomWait: Joi.number(),
   process: Joi.func().required(),
-  prevRes: Joi.object(),
+  prevRes: Joi.object().optional(),
   next: Joi.object().keys({
-    url: Joi.string().empty(''),
+    key: Joi.string().empty(''),
     process: Joi.func()
-  })
+  }),
+  finally: Joi.func()
 })
 
 exports.requestBaseConfig = {
