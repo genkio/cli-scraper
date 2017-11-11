@@ -3,13 +3,14 @@
 const crawl = require('../lib/crawler')
 const parse = require('../lib/parser')
 const promiseLimit = require('promise-limit')
+const _ = require('lodash')
 const { defaultConfig } = require('../config/default')
 
 module.exports = function handle(config) {
-  if (!config.urls) return handleSinglePage(config)
+  if (_.isEmpty(config.urls)) return handleSinglePage(config)
 
   return config.urls.map(function(url) {
-    return Object.assign({ url }, this)
+    return Object.assign(this, { url })
   }.bind(config)).reduce((promise, config) => {
     return promise.then(res => {
       return handleSinglePage(config)
@@ -27,7 +28,7 @@ function handleSinglePage(config) {
     .then(config.afterProcessed)
     .then(res => {
       const { next } = config
-      if (!next.url || next.url === "''" /* stringified default value */) return res
+      if (!next.key || next.key === "''" /* stringified default value */) return res
       return handleNext(config, res)
     })
     .then(config.finally)
@@ -40,7 +41,7 @@ function handleNext(config, res) {
     Array.from(res).map(item =>
       limit(() => {
         config.prevRes = item
-        return crawl(Object.assign(config, { url: item[config.next.url] }))
+        return crawl(Object.assign(config, { url: item[config.next.key] }))
           .then(parse)
           .then(config.next.process)
           .then(config.afterProcessed)

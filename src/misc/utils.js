@@ -20,6 +20,6 @@ exports.stringify = obj => {
   json = json.replace(new RegExp('"' + placeholder + '"', 'g'), function(_) {
     return fns.shift()
   })
-  return `exports.config = ${json}`
+  return `module.exports = ${json}`
     .replace(/"/g, '')
 }
