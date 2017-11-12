@@ -28,7 +28,7 @@ program
     const defaultPath = './config.js'
     path = pathLib.resolve(process.cwd(), path || defaultPath)
     const config = require(path)
-    handle(config).catch(e => console.log(e))
+    handle(config).catch(config.catch)
   })
 
 program.parse(process.argv)

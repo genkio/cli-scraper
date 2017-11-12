@@ -1,12 +1,15 @@
 'use strict'
 
 const Joi = require('joi')
-const { BOT } = require('../misc/ua')
 const urlRegex = /^(http|https)/
 
 exports.defaultConfig = {
   url: "''",
   urls: [],
+  requestOptions: {
+    timeout: 10 * 1000,
+    gzip: true
+  },
   beforeRequest: function() { return {} },
   afterProcessed: function(res) { return res },
   debugRequest: false,
@@ -15,22 +18,28 @@ exports.defaultConfig = {
   promiseLimit: 3,
   randomWait: 5,
   process: function({ $, url, error, createdAt }) {
+    if (error) throw Error(error)
     throw Error('Missing implementation')
   },
   next: {
     key: "''",
     process: function({ $, url, error, createdAt, prevRes }) {
+      if (error) throw Error(error)
       throw Error('Missing implementation')
     }
   },
   finally: function(res) {
     throw Error('Missing implementation')
+  },
+  catch: function(err) {
+    console.error(err)
   }
 }
 
 exports.configSchema = Joi.object().keys({
   url: Joi.string().regex(urlRegex).empty(''),
   urls: Joi.array().items(Joi.string().regex(urlRegex)),
+  requestOptions: Joi.object(),
   beforeRequest: Joi.func(),
   afterProcessed: Joi.func(),
   debugRequest: Joi.boolean(),
@@ -44,11 +53,6 @@ exports.configSchema = Joi.object().keys({
     key: Joi.string().empty(''),
     process: Joi.func()
   }),
-  finally: Joi.func()
+  finally: Joi.func(),
+  catch: Joi.func()
 })
-
-exports.requestBaseConfig = {
-  headers: { 'User-Agent': BOT.GOOGLE },
-  timeout: 1000 * 10,
-  gzip: true
-}

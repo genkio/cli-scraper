@@ -3,11 +3,11 @@
 const request = require('request')
 const moment = require('moment')
 const _ = require('lodash')
-const { requestBaseConfig, configSchema } = require('../config/default')
+const { configSchema } = require('../config/default')
 const { validate } = require('../misc/utils')
 const UA = require('../misc/ua')
 
-module.exports = function crawl(config) {
+module.exports = function scrape(config) {
   return new Promise((resolve, reject) => {
     const requestOptions = injectRequestOptions(config)
     validate(config, configSchema)
@@ -35,7 +35,7 @@ module.exports = function crawl(config) {
       }
     }
     if (config.printRequestUrl) console.log(`Requesting...${config.url}`)
-    getDefaultCrawler(config)(requestOptions, callback(config.prevRes))
+    getDefaultScraper(config)(requestOptions, callback(config.prevRes))
   })
 }
 
@@ -45,11 +45,12 @@ function injectRequestOptions(config) {
   return _.merge({ url }, injectedRequestOptions)
 }
 
-function getDefaultCrawler(config) {
+function getDefaultScraper(config) {
   const { randomUserAgent } = config
+  const requestOptions = _.cloneDeep(config.requestOptions)
   request.debug = config.debugRequest
   if (randomUserAgent) {
-    requestBaseConfig.headers['User-Agent'] = _.sample(UA.BROWSER)
+    _.set(requestOptions, 'headers["User-Agent"]', _.sample(UA.BROWSER))
   }
-  return request.defaults(requestBaseConfig)
+  return request.defaults(requestOptions)
 }
