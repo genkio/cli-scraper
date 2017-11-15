@@ -7,7 +7,9 @@ const _ = require('lodash')
 const { defaultConfig } = require('../config/default')
 
 module.exports = function handle(config) {
-  if (_.isEmpty(config.urls)) return handleSinglePage(config)
+  const isSingleUrl = _.isEmpty(config.urls) && !_.isFunction(config.urls)
+  if (isSingleUrl) return handleSinglePage(config)
+  if (_.isFunction(config.urls)) config.urls = config.urls()
 
   return config.urls.map(function(url) {
     return Object.assign(this, { url })
@@ -28,7 +30,10 @@ function handleSinglePage(config) {
     .then(config.afterProcessed)
     .then(res => {
       const { next } = config
-      if (!next.key || next.key === "''" /* stringified default value */) return res
+      // NOTE: "''" is the stringified config default value for empty string
+      if (!next.key || next.key === "''") {
+        return res
+      }
       return handleNext(config, res)
     })
     .then(config.finally)

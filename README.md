@@ -158,7 +158,7 @@ Utilities
 - `randomUserAgent`: **Boolean (default: false)** randomly (out of 5 most commonly used user-agent) set a user-agent in request header.
 
 Go infinity and beyond
-- `urls`: **Array** yes, cli-scraper can work with more than one target urls. Note, urls will be scraped sequentially.
+- `urls`: **Array|Function** yes, cli-scraper can work with more than one target urls, either an array or function which returns an array would be fine. Note, urls will be scraped sequentially.
 - `requestOptions`: **Object** cli-scraper uses [request](https://github.com/request/request) library under the hood,
 hence it accepts pretty much all options that request offers, please take a look at request
 [documentation](https://github.com/request/request#requestoptions-callback) for more information

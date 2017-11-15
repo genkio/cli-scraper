@@ -15,6 +15,10 @@ program
   .description('initialize a new configuration file')
   .action(function(path) {
     path = path || './config.js'
+    if (fs.existsSync(path)) {
+      console.log('There is already a file with the same name in this location, aborting init.')
+      return
+    }
     fs.writeFileSync(path, stringify(defaultConfig), 'utf-8', err => {
       if (err) throw err
     })

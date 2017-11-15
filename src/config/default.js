@@ -38,7 +38,10 @@ exports.defaultConfig = {
 
 exports.configSchema = Joi.object().keys({
   url: Joi.string().regex(urlRegex).empty(''),
-  urls: Joi.array().items(Joi.string().regex(urlRegex)),
+  urls: Joi.alternatives([
+    Joi.array().items(Joi.string().regex(urlRegex)),
+    Joi.func()
+  ]),
   requestOptions: Joi.object(),
   beforeRequest: Joi.func(),
   afterProcessed: Joi.func(),

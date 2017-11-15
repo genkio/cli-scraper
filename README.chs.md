@@ -152,7 +152,7 @@ module.exports = {
 - `randomUserAgent`: **Boolean (默认: false)** 从5个最常见的 user-agent 中随机选一个设置到请求头中。
 
 其他项
-- `urls`: **Array** 当然，cli-scraper 也能处理多个目标网址。但请注意，这部分请求是串行处理的。
+- `urls`: **Array|Function** 当然，cli-scraper 也能处理多个目标网址，网址数组或返回数组的方法均可。但请注意，这部分请求是串行处理的。
 - `requestOptions`: **Object** cli-scraper 底层是基于 [request](https://github.com/request/request) 这个库的，因此 request 支持的配置项也同样可用于这里，更多信息请参考 request [文档](https://github.com/request/request#requestoptions-callback)。
 - `beforeRequest`: **Function** 请求前钩子函数，它会在每次请求前被触发，可供你譬如为每次请求头添加一个不同的代理。请注意你需要在该函数中返回一个对象。
 - `afterProcessed`: **Function** 完成处理后钩子函数，它会收到处理后的结果作为参数。
