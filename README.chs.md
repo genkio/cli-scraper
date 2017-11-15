@@ -1,7 +1,8 @@
-# cli-scraper
-[![node6.10.1](https://img.shields.io/badge/node-6.10.1-green.svg)](https://nodejs.org/en/blog/release/v0.6.10/)
-[![npm](https://img.shields.io/npm/v/cli-scraper.svg)](https://www.npmjs.com/package/cli-scraper)
+# cli-scraper [![node6.10.1](https://img.shields.io/badge/node-6.10.1-green.svg)](https://nodejs.org/en/blog/release/v0.6.10/) [![npm](https://img.shields.io/npm/v/cli-scraper.svg)](https://www.npmjs.com/package/cli-scraper)
 
+![](https://forthebadge.com/images/badges/built-with-love.svg)
+![](https://forthebadge.com/images/badges/uses-js.svg)
+![](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)
 > cli-scraper 的外表下其实是一个基于 Node 的网页爬虫库，开发初衷是希望能帮助大家更方便的开发自己的爬虫，以便在命令行中浏览静态网页内容。如果你和我一样，生活在命令行世界中，那它给了你又一个留下的理由。:joy: p.s. 库名比较怪，因为它并非可以爬 命令行中的内容，或许 scraper-for-cli 会更好一些？命名不易啊！
 
 ## Getting started

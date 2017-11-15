@@ -1,6 +1,8 @@
-# cli-scraper
-[![node6.10.1](https://img.shields.io/badge/node-6.10.1-green.svg)](https://nodejs.org/en/blog/release/v0.6.10/)
-[![npm](https://img.shields.io/npm/v/cli-scraper.svg)](https://www.npmjs.com/package/cli-scraper)
+# cli-scraper [![node6.10.1](https://img.shields.io/badge/node-6.10.1-green.svg)](https://nodejs.org/en/blog/release/v0.6.10/) [![npm](https://img.shields.io/npm/v/cli-scraper.svg)](https://www.npmjs.com/package/cli-scraper)
+
+![](https://forthebadge.com/images/badges/built-with-love.svg)
+![](https://forthebadge.com/images/badges/uses-js.svg)
+![](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)
 
 > cli-scraper is a Node web scraper library at its core, it tries to make it easy for you to scrape and consume static web pages in your terminal, if you're like me, living in the terminal world, it gives you another reason to stay. :joy: p.s. I know the name sounds bit strange, it does not scrape anything from cli, scraper-for-cli maybe better? Naming is hard!
 
