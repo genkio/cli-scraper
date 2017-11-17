@@ -51,7 +51,7 @@ exports.configSchema = Joi.object().keys({
   promiseLimit: Joi.number(),
   randomWait: Joi.number(),
   process: Joi.func().required(),
-  prevRes: Joi.object().optional(),
+  prevRes: Joi.any().optional(),
   next: Joi.object().keys({
     key: Joi.string().empty(''),
     process: Joi.func()
