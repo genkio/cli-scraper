@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/ava test ./tests/*_spec.js",
-    "test:integration": "node --inspect --debug-brk ./node_modules/ava/profile.js ./tests/integration.js"
+    "test:live": "node --inspect --debug-brk ./node_modules/ava/profile.js ./tests/live.js"
   },
   "devDependencies": {
     "ava": "^0.23.0",
