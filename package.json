@@ -11,17 +11,20 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/ava test ./tests/*_spec.js",
+    "test:watch": "yarn test -- --watch",
     "test:live": "node --inspect --debug-brk ./node_modules/ava/profile.js ./tests/live.js"
   },
   "devDependencies": {
     "ava": "^0.23.0",
+    "coveralls": "^3.0.0",
     "eslint": "^4.2.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "nock": "^9.1.0"
+    "nock": "^9.1.0",
+    "nyc": "^11.3.0"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
