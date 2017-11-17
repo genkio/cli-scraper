@@ -1,4 +1,6 @@
-# cli-scraper [![node6.10.1](https://img.shields.io/badge/node-6.10.1-green.svg)](https://nodejs.org/en/blog/release/v0.6.10/) [![npm](https://img.shields.io/npm/v/cli-scraper.svg)](https://www.npmjs.com/package/cli-scraper)
+# cli-scraper
+![build](https://img.shields.io/circleci/project/github/j1wu/cli-scraper.svg)
+[![node6.10.1](https://img.shields.io/badge/node-6.10.1-green.svg)](https://nodejs.org/en/blog/release/v0.6.10/) [![npm](https://img.shields.io/npm/v/cli-scraper.svg)](https://www.npmjs.com/package/cli-scraper)
 
 ![](https://forthebadge.com/images/badges/built-with-love.svg)
 ![](https://forthebadge.com/images/badges/uses-js.svg)
