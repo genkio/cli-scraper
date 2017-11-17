@@ -1,6 +1,4 @@
-# cli-scraper
-![build](https://img.shields.io/circleci/project/github/j1wu/cli-scraper.svg)
-[![node6.10.1](https://img.shields.io/badge/node-6.10.1-green.svg)](https://nodejs.org/en/blog/release/v0.6.10/) [![npm](https://img.shields.io/npm/v/cli-scraper.svg)](https://www.npmjs.com/package/cli-scraper)
+# cli-scraper ![build](https://img.shields.io/circleci/project/github/j1wu/cli-scraper.svg) [![node6.10.1](https://img.shields.io/badge/node-6.10.1-green.svg)](https://nodejs.org/en/blog/release/v0.6.10/) [![npm](https://img.shields.io/npm/v/cli-scraper.svg)](https://www.npmjs.com/package/cli-scraper)
 
 ![](https://forthebadge.com/images/badges/built-with-love.svg)
 ![](https://forthebadge.com/images/badges/uses-js.svg)
@@ -10,8 +8,6 @@
 ## Getting started
 
 ### Installation
-
-> *Note: cli-scraper 是用 Node v6.10.1 在 macOS 上开发的, Windows 用户们如果使用出现问题，还望告知。* :bow:
 
 *这份文档不同语言版本： [English](README.md), [中文](README.chs.md).*
 
@@ -50,7 +46,7 @@ module.exports = {
 
 先假想一个场景，你想在命令行中查看最常去新闻网站的更新，不仅是新闻列表，还想知道每篇文章中的一些内容（譬如发布时间），你最终希望在命令行中看到的输出是 **新闻标题 [at] 发表时间**
 
-**Example** - 快速查看新闻网站更新：
+**范例** - 快速查看新闻网站更新：
 
 运行 init 命令生成配置文件 `$ clis init news.js`
 ```js

@@ -1,6 +1,4 @@
-# cli-scraper
- ![build](https://img.shields.io/circleci/project/github/j1wu/cli-scraper.svg)
- [![node6.10.1](https://img.shields.io/badge/node-6.10.1-green.svg)](https://nodejs.org/en/blog/release/v0.6.10/) [![npm](https://img.shields.io/npm/v/cli-scraper.svg)](https://www.npmjs.com/package/cli-scraper)
+# cli-scraper ![build](https://img.shields.io/circleci/project/github/j1wu/cli-scraper.svg) [![node6.10.1](https://img.shields.io/badge/node-6.10.1-green.svg)](https://nodejs.org/en/blog/release/v0.6.10/) [![npm](https://img.shields.io/npm/v/cli-scraper.svg)](https://www.npmjs.com/package/cli-scraper)
 
 ![](https://forthebadge.com/images/badges/built-with-love.svg)
 ![](https://forthebadge.com/images/badges/uses-js.svg)
@@ -11,8 +9,6 @@
 ## Getting started
 
 ### Installation
-
-> *Note: cli-scraper was created with Node v6.10.1 on macOS, for Windows users out there, please let me know if it does not work well for you.* :bow:
 
 *This README is also available in: [English](README.md), [中文](README.chs.md).*
 
