@@ -100,7 +100,7 @@ module.exports = {
     timeout: 10000,
     gzip: true
   },
-  beforeRequest: function () { return {} },
+  beforeRequest: function () { return Promise.resolve({}) },
   afterProcessed: function (res) { return res },
   debugRequest: false,
   randomUserAgent: false,
@@ -118,7 +118,7 @@ module.exports = {
       throw Error('Missing implementation')
     }
   },
-  finally: function (res) {
+  finally: function (res, _) {
     throw Error('Missing implementation')
   },
   catch: function (err) {
@@ -153,7 +153,7 @@ module.exports = {
 其他项
 - `urls`: **Array|Function** 当然，cli-scraper 也能处理多个目标网址，网址数组或返回数组的方法均可。但请注意，这部分请求是串行处理的。
 - `requestOptions`: **Object** cli-scraper 底层是基于 [request](https://github.com/request/request) 这个库的，因此 request 支持的配置项也同样可用于这里，更多信息请参考 request [文档](https://github.com/request/request#requestoptions-callback)。
-- `beforeRequest`: **Function** 请求前钩子函数，它会在每次请求前被触发，可供你譬如为每次请求头添加一个不同的代理。请注意你需要在该函数中返回一个对象。
+- `beforeRequest`: **Function** 请求前钩子异步函数，它会在每次请求前被触发，可供你譬如为每次请求头添加一个不同的代理。请注意你需要在该函数中返回一个对象。
 - `afterProcessed`: **Function** 完成处理后钩子函数，它会收到处理后的结果作为参数。
 
 ### Debugging tips
