@@ -104,7 +104,7 @@ module.exports = {
     timeout: 10000,
     gzip: true
   },
-  beforeRequest: function () { return {} },
+  beforeRequest: function () { return Promise.resolve({}) },
   afterProcessed: function (res) { return res },
   debugRequest: false,
   randomUserAgent: false,
@@ -122,7 +122,7 @@ module.exports = {
       throw Error('Missing implementation')
     }
   },
-  finally: function (res) {
+  finally: function (res, _) {
     throw Error('Missing implementation')
   },
   catch: function (err) {
@@ -138,7 +138,7 @@ Required
   - `url`: **String** target url.
   - `error`: **String** error message (if we encountered an error while scraping).
   - `createdAt`: **String** scraped datetime (ISO-8601).
-- `finally`: **Function** result handler function, it receives the processed result.
+- `finally`: **Function** result handler function, it receives the processed result and the handy lodash function.
 - `catch`: **Function** exception handler function, it's not required, however you should have it taken care of.
 
 Next
@@ -162,8 +162,8 @@ Go infinity and beyond
 - `requestOptions`: **Object** cli-scraper uses [request](https://github.com/request/request) library under the hood,
 hence it accepts pretty much all options that request offers, please take a look at request
 [documentation](https://github.com/request/request#requestoptions-callback) for more information
-- `beforeRequest`: **Function** before request hook function, it will be triggered before every request, you can use it
-to for example set different proxy for sending out the request. Remember cli-scraper expects you to return an object out of it.
+- `beforeRequest`: **Function** before request hook async function, it will be triggered before every request, you can use it
+to for example set different proxy for sending out the request. Remember cli-scraper expects you to resolve an object out of it.
 - `afterProcessed`: **Function** after request process hook function, it receives the processed result as the argument.
 
 ### Debugging tips
