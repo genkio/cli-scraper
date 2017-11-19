@@ -6,9 +6,10 @@ module.exports = {
     timeout: 10000
   },
   randomUserAgent: true,
-  printRequestUrl: false,
+  printRequestUrl: true,
   randomWait: 5,
-  process: function ({ $ }) {
+  process: function ({ $, error }) {
+    if (error) { throw Error(error) }
     return $('.firstPart ul.newList01 > li > a').map((i, el) => {
       return {
         articleUrl: $(el).prop('href'),
@@ -18,7 +19,8 @@ module.exports = {
   },
   next: {
     key: 'articleUrl',
-    process: function ({ $, prevRes }) {
+    process: function ({ $, prevRes, error }) {
+      if (error) { throw Error(error) }
       return Object.assign(prevRes, {
         date: $('.h-news > .h-info > .h-time').text()
       })
@@ -29,5 +31,8 @@ module.exports = {
       console.log(`${item.title} [at] ${item.date}`)
     }
     return res
+  },
+  catch: function (err) {
+    console.log(err)
   }
 }
