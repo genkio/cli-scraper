@@ -28,7 +28,7 @@ exports.defaultConfig = {
       throw Error('Missing implementation')
     }
   },
-  finally: function(res) {
+  finally: function(res, _) {
     throw Error('Missing implementation')
   },
   catch: function(err) {

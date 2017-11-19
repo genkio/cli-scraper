@@ -36,7 +36,7 @@ function handleSinglePage(config) {
       }
       return handleNext(config, res)
     })
-    .then(config.finally)
+    .then(res => config.finally(res, _))
     .catch(e => { throw e })
 }
 
