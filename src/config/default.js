@@ -10,7 +10,7 @@ exports.defaultConfig = {
     timeout: 10 * 1000,
     gzip: true
   },
-  beforeRequest: function() { return {} },
+  beforeRequest: function() { return Promise.resolve({}) },
   afterProcessed: function(res) { return res },
   debugRequest: false,
   randomUserAgent: false,
