@@ -1,7 +1,9 @@
 'use strict'
 
 module.exports = {
-  url: 'http://www.news.cn/world/index.htm',
+  urls: function () {
+    return [1, 2].map(page => `http://www.news.cn/world/${page}`)
+  },
   requestOptions: {
     timeout: 10000
   },

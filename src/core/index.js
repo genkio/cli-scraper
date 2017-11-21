@@ -12,7 +12,7 @@ module.exports = function handle(config) {
   if (_.isFunction(config.urls)) config.urls = config.urls()
 
   return config.urls.map(function(url) {
-    return Object.assign(this, { url })
+    return _.cloneDeep(_.merge(this, { url }))
   }.bind(config)).reduce((promise, config) => {
     return promise.then(res => {
       return handleSinglePage(config)

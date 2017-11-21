@@ -19,12 +19,12 @@ exports.bing = `
   )}
 `
 
-exports.newsList = `
+exports.newsList = (page = 1) => `
 <div class="firstPart">
   <ul class="newList01">
     <li>
-      <a href="http://www.news.cn/world/articles/1.htm">Hello</a>
-      <a href="http://www.news.cn/world/articles/2.htm">World</a>
+      <a href="http://www.news.cn/world/${page}/articles/1.htm">Hello</a>
+      <a href="http://www.news.cn/world/${page}/articles/2.htm">World</a>
     </li>
   </ul>
 </div>
