@@ -138,7 +138,8 @@ Required
   - `url`: **String** target url.
   - `error`: **String** error message (if we encountered an error while scraping).
   - `createdAt`: **String** scraped datetime (ISO-8601).
-- `finally`: **Function** result handler function, it receives the processed result and the handy lodash function.
+  - `_`: **Function** the handy lodash function.
+- `finally`: **Function** result handler function, it receives the processed result as well as the lodash function.
 - `catch`: **Function** exception handler function, it's not required, however you should have it taken care of.
 
 Next

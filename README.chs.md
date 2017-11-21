@@ -133,7 +133,8 @@ module.exports = {
   - `url`: **String** 目标网址。
   - `error`: **String** 错误信息（如果爬取遇到了问题）。
   - `createdAt`: **String** ISO-8601 标准的爬取时间。
-- `finally`: **Function** 爬取结果处理函数，提取函数的结果会传给它。
+  - `_`: **Function** Lodash 工具函数
+- `finally`: **Function** 爬取结果处理函数，提取函数的结果及 Lodash 函数会传给它。
 - `catch`: **Function** 异常处理函数。
 
 然后...

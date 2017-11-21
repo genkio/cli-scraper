@@ -1,6 +1,8 @@
 'use strict'
 
 const cheerio = require('cheerio')
+const _ = require('lodash')
+const request = require('request')
 
 module.exports = function main(res) {
   const { html = '', url, error, prevRes, createdAt } = res
@@ -9,6 +11,8 @@ module.exports = function main(res) {
     url,
     error,
     prevRes,
-    createdAt
+    createdAt,
+    request,
+    _
   }
 }
