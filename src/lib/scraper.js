@@ -27,9 +27,9 @@ function scrape(config) {
     if (config.printRequestUrl) console.log(`Requesting...${config.url}`)
 
     const handler = getRequestHandler(config, resolve)
-    const request = getDefaultScraper(config)
+    const scraper = config.scraper ? config.scraper : getDefaultScraper(config)
     const options = Object.assign(config.requestOptions, { url: config.url })
-    request(options, handler(config.prevRes))
+    scraper(options, handler(config.prevRes))
   })
 }
 

@@ -1,11 +1,14 @@
 'use strict'
 
+const _ = require('lodash')
 const test = require('ava')
 const nock = require('nock')
 const core = require('../src/core')
 const bingConfig = require('./config/bing')
 const newsConfig = require('./config/news')
 const responseMocks = require('./mocks/html')
+let clonedBingConfig = null
+let clonedNewsConfig = null
 
 test.before(t => {
   nock('https://www.bing.com')
@@ -27,13 +30,18 @@ test.before(t => {
     .reply(200, responseMocks.newsArticle(4))
 })
 
+test.beforeEach(t => {
+  clonedBingConfig = _.cloneDeep(bingConfig)
+  clonedNewsConfig = _.cloneDeep(newsConfig)
+})
+
 test.serial('it should scrape logo text from bing.com', async t => {
-  const result = await core(bingConfig)
+  const result = await core(clonedBingConfig)
   t.is(result, 'Bing')
 })
 
-test.serial('it should scrape news list along with each news article publish date from news.cn', async t => {
-  const result = await core(newsConfig)
+test.serial('it should scrape multiple pages if array of urls were given, along with their nested pages', async t => {
+  const result = await core(clonedNewsConfig)
   t.is(result.length, 4)
   t.is(result[0].title, 'Hello')
   t.is(result[0].date, '1970-1-1')
@@ -43,4 +51,13 @@ test.serial('it should scrape news list along with each news article publish dat
   t.is(result[2].date, '1970-1-3')
   t.is(result[3].title, 'World')
   t.is(result[3].date, '1970-1-4')
+})
+
+test.serial('it should scrape single page with custom scraper provided by lib consumer', async t => {
+  const result = await core(Object.assign(clonedBingConfig, {
+    scraper: (config, callback) => {
+      callback(null, { statusCode: 200 }, responseMocks.bing)
+    }
+  }))
+  t.is(result, 'Bing')
 })

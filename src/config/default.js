@@ -57,5 +57,6 @@ exports.configSchema = Joi.object().keys({
     process: Joi.func()
   }),
   finally: Joi.func(),
-  catch: Joi.func()
+  catch: Joi.func(),
+  scraper: Joi.func()
 })
